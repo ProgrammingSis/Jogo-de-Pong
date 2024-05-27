@@ -1,0 +1,12 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Debugar!",
+			"request": "launch",
+			"mainClass": "Pong",
+			"preLaunchTask": "Build project"
+		}
+	]
+}
