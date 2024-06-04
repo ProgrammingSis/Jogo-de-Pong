@@ -70,7 +70,6 @@ public class Player {
 	*/
 	public void moveDown(long delta){
  		//mover para baixo é diminuir a coordenada y com o tempo definido pelo delta
-
 		this.cy = this.cy + (delta * this.velocidade);
 	}
 

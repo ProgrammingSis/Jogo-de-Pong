@@ -1,5 +1,3 @@
-
-
 import java.awt.*;
 
 import javax.swing.plaf.basic.BasicColorChooserUI.PropertyHandler;
@@ -9,7 +7,6 @@ import javax.swing.plaf.basic.BasicColorChooserUI.PropertyHandler;
 	instancia dois objeto deste tipo, cada um responsável por gerenciar a pontuação
 	de um player, quando a execução é iniciada.
 */
-
 public class Score {
 	private String idPlayer;
 	private int score = 0;

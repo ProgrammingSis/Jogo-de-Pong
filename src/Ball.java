@@ -9,7 +9,7 @@ public class Ball {
 	private double cx, cy, width, height, speed;
 	double directionX, directionY;
 	Color color;
-
+ public double wallHeight = 300, wallWidth = 300;
 	/**
 		Construtor da classe Ball. Observe que quem invoca o construtor desta classe define a velocidade da bola 
 		(em pixels por millisegundo), mas não define a direção deste movimento. A direção do movimento é determinada 
@@ -60,8 +60,11 @@ public class Ball {
 	 *@param cy posição atual da bola no eixo y
 	 * **/
 	public void update(long delta){
-		cx = cx + directionX * speed;
-		cy = cy + directionY * speed; 
+
+		for (int i = 0; i < delta; i++) {
+			this.cx = this.cx + directionX * speed;
+			this.cy = this.cy + directionY * speed;
+		}
 	}
 
 	/**
@@ -70,7 +73,8 @@ public class Ball {
 		@param playerId uma string cujo conteúdo identifica um dos jogadores.
 	*/
 	public void onPlayerCollision(String playerId){
-
+		this.cx = - this.cx;
+		//como acessar a localização atual do player?
 	}
 
 	/**
@@ -81,11 +85,11 @@ public class Ball {
 
 	public void onWallCollision(String wallId){
 
-   if(wallId.equals("TOP") || wallId.equals("RIGHT")){
-		cy = -cy;
+   if(wallId.equals("TOP") || wallId.equals("BOTTOM")){
+		this.cy = -this.cy;
 	 }
 	 if(wallId.equals("LEFT") || wallId.equals("RIGHT")){
-		cx = -cx;
+		this.cx = -this.cx;
 	 }
 	}
 
@@ -95,10 +99,27 @@ public class Ball {
 		@param wall referência para uma instância de Wall contra a qual será verificada a ocorrência de colisão da bola.
 		@return um valor booleano que indica a ocorrência (true) ou não (false) de colisão.
 	*/
-	
 	public boolean checkCollision(Wall wall){
+		switch (wall.getId()){
+			case "Left":
+					if (cx - width/2 < wall.getCx() + wall.getWidth()/2)
+							return true;
+					break;
 
-		return false;
+			case "Right":
+					if (cx + width/2 > wall.getCx() - wall.getWidth()/2)
+							return true;
+					break;
+			case "Top":
+					if (cy - height/2 < wall.getCy() + wall.getHeight()/2)
+							return true;
+					break;
+			case "Bottom":
+					if (cy + height/2 > wall.getCy() - wall.getHeight()/2)
+							return true;
+					break;
+	}
+	return false;
 	}
 
 	/**
