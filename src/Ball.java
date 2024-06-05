@@ -6,7 +6,7 @@ import java.awt.*;
 */
 
 public class Ball {
-	private double cx, cy, width, height, speed;
+	private double cx, cy, width, height, speed, Xspeed, Yspeed;
 	double directionX, directionY;
 	Color color;
  public double wallHeight = 300, wallWidth = 300;
@@ -36,6 +36,9 @@ public class Ball {
 		directionX = Math.cos(directionInRad); 
 		directionY = Math.sin(directionInRad);
 
+		Xspeed = this.speed;
+		Yspeed = this.speed;
+
 	}
 
 
@@ -60,11 +63,9 @@ public class Ball {
 	 *@param cy posição atual da bola no eixo y
 	 * **/
 	public void update(long delta){
+		cx = cx + Xspeed*delta;
+		cy = cy + Yspeed*delta;
 
-		for (int i = 0; i < delta; i++) {
-			this.cx = this.cx + directionX * speed;
-			this.cy = this.cy + directionY * speed;
-		}
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class Ball {
 		@param playerId uma string cujo conteúdo identifica um dos jogadores.
 	*/
 	public void onPlayerCollision(String playerId){
-		this.cx = - this.cx;
+		this.speed = - this.speed;
 		//como acessar a localização atual do player?
 	}
 
@@ -84,13 +85,20 @@ public class Ball {
 	*/
 
 	public void onWallCollision(String wallId){
-
-   if(wallId.equals("TOP") || wallId.equals("BOTTOM")){
-		this.cy = -this.cy;
-	 }
-	 if(wallId.equals("LEFT") || wallId.equals("RIGHT")){
-		this.cx = -this.cx;
-	 }
+		
+		if((cx >= 30 && cx <= 770) && (cy <= 120)){  // cima 
+			this.Yspeed = this.Yspeed*(-1);
+		}
+		else if((cx >= 30 && cx <= 770) && (cy >= 570)){  // baixo
+			this.Yspeed = this.Yspeed*(-1);
+		}
+		else if((cy >= 30 && cy <= 570) && (cx >= 30 || cx <= 770)){  // direita e esquerda
+			this.Xspeed = this.Xspeed*(-1);
+		}
+		else if( ( cx <= 30 && cy <= 120 ) || (cx <= 30 && cy >= 570) || (cx >= 770 && cy >= 570) || (cx >= 770 && cy >= 570) ){  // áreas de bug
+			this.Xspeed = this.Xspeed*(-1);
+			this.Yspeed = this.Yspeed*(-1);
+		}
 	}
 
 	/**
@@ -128,9 +136,59 @@ public class Ball {
 		@param player referência para uma instância de Player contra o qual será verificada a ocorrência de colisão da bola.
 		@return um valor booleano que indica a ocorrência (true) ou não (false) de colisão.
 	*/	
-
+	Player playerColisao;
 	public boolean checkCollision(Player player){
+		if(player.getId().equals("Player 1")) {
+			playerColisao = player;
+			if(player.getCx() + player.getWidth()/2.0 + 5 >= cx - width/2.0  &&	// frente
+		      (player.getHeight()/2.0 + player.getCy() >= (cy + height/2.0) && 
+		       playerColisao.getCy() - playerColisao.getHeight()/2.0  <= (cy - height/2.0))){
+				return true;
 
+			}
+			else if( cy + height/2.0 == player.getCy() - player.getHeight() && 		// em cima
+					(cx + width/2.0 >= player.getCx() - player.getWidth()/2.0 && cx + width/2.0 
+					<= player.getCx() + player.getWidth()/2.0 )){
+				return true;
+
+			}
+			else if( cy - height/2.0 == player.getCy() + player.getHeight() && 		// em baixo
+					(cx + width/2.0 >= player.getCx() - player.getWidth()/2.0 && cx + width/2.0 <= player.getCx() + player.getWidth()/2.0 )){
+				return true;
+
+			}
+			else if( cx + width/2.0 == player.getCx() - player.getWidth() &&		// atrás
+			( cy - height/2.0 >= player.getCy() - player.getHeight()/2.0 && cy - height/2.0 <= player.getCy() + player.getHeight()/2.0 ) ){
+				return true;
+
+			}
+  
+		}
+		else if(player.getId().equals("Player 2")) {
+			playerColisao = player;
+			if(player.getCx() - player.getWidth()/2.0 <= cx + width/2.0 && // em frente
+		       (player.getHeight()/2.0 + player.getCy() - (cy + height/2.0) >= 0 && 
+		        playerColisao.getCy() - playerColisao.getHeight()/2.0  <= (cy - height/2.0))){
+				return true;
+
+			}
+			else if( cy + height/2.0 == player.getCy() - player.getHeight() && 		// em cima
+					(cx + width/2.0 >= player.getCx() - player.getWidth()/2.0 && cx + width/2.0 <= player.getCx() + player.getWidth()/2.0 )){
+				return true;
+				
+			}
+			else if( cy - height/2.0 == player.getCy() + player.getHeight() && 		// em baixo
+					(cx + width/2.0 >= player.getCx() - player.getWidth()/2.0 && cx + width/2.0 <= player.getCx() + player.getWidth()/2.0 )){
+				return true;
+
+			}
+			else if( cx - width/2.0 == player.getCx() + player.getWidth() && ( cy - height/2.0 >=
+			 player.getCy() - player.getHeight()/2.0 && cy - height/2.0 <=
+			 player.getCy() + player.getHeight()/2.0 ) ){
+				return true;
+
+			}
+		}
 		return false;
 	}
 
