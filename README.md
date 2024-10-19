@@ -1,4 +1,4 @@
-#Jogo de pong
+# Jogo de pong
 Um jogo simples de pong onde cada jogador usa 2 teclas do teclado para mover sua respectiva barra, que serve para defender a sua parede.
 O jogador que conseguir fazer um lance que ultrapasse a barra do oponente e atinja a parede dele, ganha um ponto no placar. 
 
