@@ -1,0 +1,55 @@
+flowchart TD
+    subgraph "Controller Layer"
+        IC["InputController"]:::controller
+        ML["MainLoop / GameEngine"]:::engine
+    end
+
+    subgraph "Model Layer"
+        Ball["Ball"]:::model
+        Player["Player"]:::model
+        Score["Score"]:::model
+    end
+
+    subgraph "View Layer"
+        Renderer["Renderer / View"]:::view
+    end
+
+    subgraph "External Library"
+        GameLib["GameLib.jar"]:::external
+    end
+
+    subgraph "Build & Docs"
+        Build["build/"]:::infra
+        Makefile["Makefile"]:::infra
+        Javadoc["javadoc/"]:::infra
+        README["README.md"]:::infra
+    end
+
+    IC -->|"keyPressed → Player.move()"| Player
+    ML -->|"update() → Ball.move()"| Ball
+    Ball -->|"collision behind paddle → Score.increment()"| Score
+    ML -->|"draw() → Renderer.draw(Model)"| Renderer
+    Renderer -->|"uses render utilities"| GameLib
+    Player -->|"extends Paddle class"| GameLib
+    Ball -->|"extends Ball class"| GameLib
+    Score -->|"uses scoring API"| GameLib
+    ML -->|"core loop implementation"| GameLib
+
+    click ML "https://github.com/programmingsis/jogo-de-pong/blob/master/lib/GameLib.jar"
+    click IC "https://github.com/programmingsis/jogo-de-pong/blob/master/src/Player.java"
+    click Ball "https://github.com/programmingsis/jogo-de-pong/blob/master/src/Ball.java"
+    click Player "https://github.com/programmingsis/jogo-de-pong/blob/master/src/Player.java"
+    click Score "https://github.com/programmingsis/jogo-de-pong/blob/master/src/Score.java"
+    click GameLib "https://github.com/programmingsis/jogo-de-pong/blob/master/lib/GameLib.jar"
+    click Renderer "https://github.com/programmingsis/jogo-de-pong/blob/master/lib/GameLib.jar"
+    click Build "https://github.com/programmingsis/jogo-de-pong/tree/master/build/"
+    click Makefile "https://github.com/programmingsis/jogo-de-pong/tree/master/src/Makefile"
+    click Javadoc "https://github.com/programmingsis/jogo-de-pong/tree/master/lib/javadoc/"
+    click README "https://github.com/programmingsis/jogo-de-pong/blob/master/README.md"
+
+    classDef controller fill:#9f6,stroke:#333,stroke-width:1px
+    classDef engine fill:#afa,stroke:#333,stroke-width:1px
+    classDef model fill:#6cf,stroke:#333,stroke-width:1px
+    classDef view fill:#f96,stroke:#333,stroke-width:1px
+    classDef external fill:#ccc,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
+    classDef infra fill:#fc9,stroke:#333,stroke-width:1px,stroke-dasharray: 2 2
