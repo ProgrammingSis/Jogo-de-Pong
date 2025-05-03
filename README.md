@@ -4,6 +4,6 @@ O jogador que conseguir fazer um lance que ultrapasse a barra do oponente e atin
 
 Proposta do trabalho: A partir dos arquivos .class prontos, implementar 3 classes novas para que as funcionalidades do jogo ocorram conforme o esperado (dentro da seção "Model Layer").
 
-![Diagrama do jogo Pong](images/Diagrama jogo de pong.png)
+![Diagrama do jogo Pong](images/diagram.png)
 
 Observações sobre a construção do trabalho: A ideia é exercitar a noção de modularidade de cada classe, já é um desafio trocar o hábito de lidar com a linguagem C (paradigma procedural) para uma de paradigma orientado a objetos num primeiro momento.
